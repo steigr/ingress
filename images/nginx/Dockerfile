@@ -21,6 +21,14 @@ COPY build.sh install_lua_resty_waf.sh /
 
 RUN clean-install bash
 
+RUN echo deb http://deb.debian.org/debian experimental main >> /etc/apt/sources.list \
+ && echo deb http://deb.debian.org/debian unstable main >> /etc/apt/sources.list \
+ && printf 'Package: *\nPin: release a=stable\nPin-Priority: 700\n\nPackage: *\nPin: release a=testing\nPin-Priority: 650\n\nPackage: *\nPin: release a=unstable\nPin-Priority: 600\n\nPackage: *\nPin: release a=experimental\nPin-Priority: 550\n' | install -D /dev/stdin /etc/apt/preferences.d/pinning \
+ && printf 'Package: openssl\nPin: release a=experimental\nPin-Priority: 700\n' | install -D /dev/stdin /etc/apt/preferences.d/openssl \
+ && printf 'Package: libssl*\nPin: release a=experimental\nPin-Priority: 700\n' | install -D /dev/stdin /etc/apt/preferences.d/libssl \
+ && printf 'Package: libc6*\nPin: release a=unstable\nPin-Priority: 700\n' | install -D /dev/stdin /etc/apt/preferences.d/libc6 \
+ && printf 'Package: libc-*\nPin: release a=unstable\nPin-Priority: 700\n' | install -D /dev/stdin /etc/apt/preferences.d/libc
+
 RUN /build.sh
 
 # Create symlinks to redirect nginx logs to stdout and stderr docker log collector
