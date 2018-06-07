@@ -445,6 +445,9 @@ WITH_MODULES="--add-module=$BUILD_PATH/ngx_devel_kit-$NDK_VERSION \
   && make || exit 1 \
   && make install || exit 1
 
+# search for all elf binaries in /usr, which are not stripped and strip them
+find /usr -type f | xargs -n1 file | grep "LSB shared object" | grep "not stripped" | awk -F': ELF ' '{print $1}' | xargs -r -t -n1 strip
+
 echo "Cleaning..."
 
 cd /
@@ -474,7 +477,10 @@ apt-get remove -y --purge \
   linux-libc-dev \
   cmake \
   wget \
-  git g++ pkgconf flex bison doxygen libyajl-dev liblmdb-dev libgeoip-dev libtool dh-autoreconf libpcre++-dev libxml2-dev
+  git g++ pkgconf flex bison doxygen libyajl-dev liblmdb-dev libgeoip-dev libtool dh-autoreconf libpcre++-dev libxml2-dev \
+  libcurl4-openssl-dev \
+  dpkg-dev \
+  libjemalloc-dev
 
 apt-get autoremove -y
 
@@ -490,6 +496,8 @@ rm -rf /var/cache/apt/archives/*
 rm -rf /usr/local/modsecurity/bin
 rm -rf /usr/local/modsecurity/include
 rm -rf /usr/local/modsecurity/lib/libmodsecurity.a
+
+rm -rf /usr/local/lib/*.a
 
 rm -rf /etc/nginx/owasp-modsecurity-crs/.git
 rm -rf /etc/nginx/owasp-modsecurity-crs/util/regression-tests
