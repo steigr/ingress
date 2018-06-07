@@ -445,6 +445,9 @@ WITH_MODULES="--add-module=$BUILD_PATH/ngx_devel_kit-$NDK_VERSION \
   && make || exit 1 \
   && make install || exit 1
 
+# search for all elf binaries in /usr, which are not stripped and strip them
+find /usr -type f | xargs -n1 file | grep "LSB shared object" | grep "not stripped" | awk -F': ELF ' '{print $1}' | xargs -r -t -n1 strip
+
 echo "Cleaning..."
 
 cd /
