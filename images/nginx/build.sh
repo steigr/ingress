@@ -477,7 +477,10 @@ apt-get remove -y --purge \
   linux-libc-dev \
   cmake \
   wget \
-  git g++ pkgconf flex bison doxygen libyajl-dev liblmdb-dev libgeoip-dev libtool dh-autoreconf libpcre++-dev libxml2-dev
+  git g++ pkgconf flex bison doxygen libyajl-dev liblmdb-dev libgeoip-dev libtool dh-autoreconf libpcre++-dev libxml2-dev \
+  libcurl4-openssl-dev \
+  dpkg-dev \
+  libjemalloc-dev  
 
 apt-get autoremove -y
 
