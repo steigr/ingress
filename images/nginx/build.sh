@@ -480,7 +480,7 @@ apt-get remove -y --purge \
   git g++ pkgconf flex bison doxygen libyajl-dev liblmdb-dev libgeoip-dev libtool dh-autoreconf libpcre++-dev libxml2-dev \
   libcurl4-openssl-dev \
   dpkg-dev \
-  libjemalloc-dev  
+  libjemalloc-dev
 
 apt-get autoremove -y
 
@@ -496,6 +496,8 @@ rm -rf /var/cache/apt/archives/*
 rm -rf /usr/local/modsecurity/bin
 rm -rf /usr/local/modsecurity/include
 rm -rf /usr/local/modsecurity/lib/libmodsecurity.a
+
+rm -rf /usr/local/lib/*.a
 
 rm -rf /etc/nginx/owasp-modsecurity-crs/.git
 rm -rf /etc/nginx/owasp-modsecurity-crs/util/regression-tests
